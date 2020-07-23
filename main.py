@@ -38,13 +38,42 @@ local function max(...)
     return val, idx
 end
 
+function qsort(a, l, r)
+  local i, j, mid, tmp
+  i = l
+  j = r
+  mid = a[(i + j) // 2]
+  while i <= j do
+    while a[i] < mid do i = i + 1 end
+    while a[j] > mid do j = j - 1 end
+    if i <= j then
+      tmp = a[i]
+      a[i] = a[j]
+      a[j] = tmp
+      i = i + 1
+      j = j - 1
+    end
+  end
+  if i < r then qsort(a, i, r) end
+  if l < j then qsort(a, l, j) end
+  return a
+end
+
 print("Hello, Lua!")
+
 print(fibonacci(16))  -- test function call
+
 items({a=1, b=2, c=3}) -- test table
+
 c1 = newCounter()
 c2 = newCounter()
 print(c1(), c1(), c2(), c1(), c2()) -- test closure
+
 print(max(1, 100, max(1000, 10)))
+
+local a = {1,4,7,2,5,8,3,6,9} -- test qsort
+qsort(a, 1, #a)
+print(a)
 '''
 
 run(code)
